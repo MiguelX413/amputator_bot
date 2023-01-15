@@ -13,12 +13,24 @@ from telegram.ext import (
 )
 
 
+def deamp_url(url: str) -> str:
+    # TODO: Use Amputator Bot API
+    return url
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("I'm a bot, please talk to me!")
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(update.message.text)
+    await update.message.reply_text(
+        "\n".join(
+            f"*{deamp_url(url)}"
+            for url in update.message.parse_entities(
+                types=[MessageEntityType.URL]
+            ).values()
+        )
+    )
 
 
 def bot(
