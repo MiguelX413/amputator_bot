@@ -3,7 +3,14 @@ import logging
 import os
 
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
+from telegram.constants import MessageEntityType
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -19,9 +26,13 @@ def bot(
 ) -> None:
     application = ApplicationBuilder().token(token).build()
 
-    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
+    echo_handler = MessageHandler(
+        filters.TEXT & filters.Entity(MessageEntityType.URL), echo
+    )
 
     application.add_handler(echo_handler)
+
+    application.add_handler(CommandHandler("start", start))
 
     application.run_polling()
 
