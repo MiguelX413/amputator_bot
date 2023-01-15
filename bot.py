@@ -18,11 +18,11 @@ def deamp_url(url: str) -> str:
     return url
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("I'm a bot, please talk to me!")
 
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         "\n".join(
             f"*{deamp_url(url)}"
